@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import {
+  createUserWithEmailAndPassword,
   getAuth,
   GoogleAuthProvider,
   signInWithEmailAndPassword,
@@ -18,12 +19,14 @@ export class AuthService {
     this._auth = getAuth(app);
   }
 
-  public loginViaEmail(): void {}
+  public loginViaEmail({ email, password }: LoginWithEmailUser): void {
+    signInWithEmailAndPassword(this._auth, email, password);
+  }
 
-  public forgotPassword(): void {}
+  public resetPassword({ email }: Pick<LoginWithEmailUser, 'email'>): void {}
 
   public signInWithEmail({ email, password }: LoginWithEmailUser): void {
-    signInWithEmailAndPassword(this._auth, email, password);
+    createUserWithEmailAndPassword(this._auth, email, password);
   }
 
   public loginViaGoogleAccount(): void {

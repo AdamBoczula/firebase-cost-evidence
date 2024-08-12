@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AuthModule } from '@angular/fire/auth';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -47,6 +47,8 @@ import { AuthService } from './auth.service';
   styleUrl: './auth.component.scss',
 })
 export class AuthComponent {
+  public isSignIn = signal(false);
+
   authForm = new FormGroup({
     email: new FormControl(''),
     password: new FormControl(''),
@@ -60,16 +62,29 @@ export class AuthComponent {
   }
 
   public loginViaEmail(): void {
-    this.authService.loginViaEmail();
+    this.authService.loginViaEmail({
+      email: this.authForm.get('email')!.value!,
+      password: this.authForm.get('password')!.value!,
+    });
   }
 
-  public forgotPassword(): void {
-    this.authService.forgotPassword();
+  public resetPassword(): void {
+    this.authService.resetPassword({
+      email: this.authForm.get('email')!.value!,
+    });
+  }
+
+  public loginInWithEmail(): void {
+    if (!this.authForm.valid) return;
+
+    this.authService.loginViaEmail({
+      email: this.authForm.get('email')!.value!,
+      password: this.authForm.get('password')!.value!,
+    });
   }
 
   public signInWithEmail(): void {
     if (!this.authForm.valid) return;
-    this.authService.loginViaEmail();
 
     this.authService.signInWithEmail({
       email: this.authForm.get('email')!.value!,
