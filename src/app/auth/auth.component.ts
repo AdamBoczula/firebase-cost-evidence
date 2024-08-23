@@ -19,17 +19,22 @@ import { AuthService } from './auth.service';
   template: `<form [formGroup]="authForm">
     <mat-form-field>
       <mat-label>Email</mat-label>
-      <input matInput type="email" formControlName="email" />
+      <input matInput type="email" formControlName="email" required />
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>Password</mat-label>
-      <input matInput type="password" formControlName="password" />
+      <input matInput type="password" formControlName="password" required />
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>Repeat Password</mat-label>
-      <input matInput type="password" formControlName="repeatedPassword" />
+      <input
+        matInput
+        type="password"
+        formControlName="repeatedPassword"
+        required
+      />
     </mat-form-field>
 
     <div class="login-buttons">
